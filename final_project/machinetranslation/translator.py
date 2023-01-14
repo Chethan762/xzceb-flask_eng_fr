@@ -4,24 +4,32 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('apikey')
 language_translator = LanguageTranslatorV3(
-    version='2018-09-05',
+    version='2018-05-01',
     authenticator=authenticator
 )
 
 language_translator.set_service_url('url')
 
-def englishToFrench(englishText):
+def english_to_french(text1):
+    '''
+    This function translate english to french
+    '''
+    frenchtranslation = language_translator.translate(
+        text=text1,
+        text1='Hello',
+        model_id='en-fr'
+        ).get_result()
 
-    frenchText = language_translator.translate(
-        text='Hello',
-        model_id='en-fr').get_result()
+    return frenchtranslation.get("translations")[0].get("translation")
 
-    return frenchText
+def french_to_english(text1):
+    '''
+    This function translate french to english
+    '''
+    englishtranslation = language_translator.translate(
+        text=text1,
+        text1='Bonjour',
+        model_id='fr-en'
+        ).get_result()
 
-def frenchToEnglish(frenchText):
-
-    englishText = language_translator.translate(
-        text='Bonjour',
-        model_id='fr-en').get_result()
-
-    return englishText
+    return englishtranslation.get("translations")[0].get("translation")
